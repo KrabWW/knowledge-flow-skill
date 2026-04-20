@@ -13,21 +13,20 @@ trigger:
 
 从飞书的多媒体内容中提取知识，自动回写到项目知识库。
 
-> **⚠️ 使用前必读：安装前置依赖**
->
-> 本 Skill 依赖飞书 CLI 和相关 Skills。使用前请先运行一键安装器：
->
-> ```bash
-> npx @krab-jw/knowledge-flow-installer
-> ```
->
-> 安装器会自动配置：
-> - ✅ 飞书 CLI (@larksuite/cli)
-> - ✅ 飞书 Skills (23个)
-> - ✅ 飞书应用认证
-> - ✅ 本 Skill（从内网 Nacos 或外网 GitHub）
->
-> **如已安装上述依赖，可直接使用本 Skill。**
+## 使用前检查
+
+确保已安装飞书 CLI:
+
+```bash
+lark-cli --version
+npx skills list | grep larksuite
+```
+
+如果未安装，运行一键安装器:
+
+```bash
+npx @your-org/knowledge-flow-installer
+```
 
 ## 使用方法
 
@@ -60,6 +59,53 @@ trigger:
 > "知识回流全部内容，最近1个月"
 
 > "同步飞书所有相关知识到项目"
+
+### 5. 代码审查回流（自动触发）
+
+> "启用代码提交审查"
+
+> "配置 Commit Review Hook"
+
+**自动 Hook 功能**：
+
+每次 `git commit` 时自动触发代码审查：
+- ✅ 对比代码变更与飞书需求文档
+- ✅ 使用 Claude Code 检查一致性
+- ✅ 将审查结果写回飞书文档
+- ✅ 提取【新发现】标注为粉色批注
+
+**安装 Hook**：
+
+```bash
+cd /path/to/your/project
+bash scripts/commit_review/install.sh
+```
+
+**环境变量配置**：
+
+```bash
+# 飞书需求文档 URL（必需）
+export LARK_DOC_URL="https://www.feishu.cn/docx/..."
+
+# 知识回流目标文档（可选，默认等于需求文档）
+export LARK_KB_DOC_URL="https://www.feishu.cn/docx/..."
+```
+
+**手动触发审查**：
+
+```bash
+# 方法 1：通过 Claude Code
+运行审查：检查当前代码与需求文档的一致性
+
+# 方法 2：直接运行脚本
+uv run python scripts/commit_review/main.py
+```
+
+**跳过审查（临时）**：
+
+```bash
+git commit --no-verify -m "your message"
+```
 
 ## 参数说明
 
