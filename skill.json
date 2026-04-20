@@ -1,0 +1,53 @@
+{
+  "name": "knowledge-flow",
+  "description": "从飞书提取知识并回写到项目 - 支持会议纪要、Wiki 文档、群聊消息",
+  "version": "1.0.0",
+  "author": "Your Name",
+  "trigger": [
+    "知识回流",
+    "飞书知识",
+    "同步会议",
+    "会议纪要",
+    "wiki sync",
+    "飞书文档",
+    "消息待办"
+  ],
+  "parameters": {
+    "source": {
+      "type": "string",
+      "description": "知识来源类型",
+      "enum": ["meeting", "wiki", "doc", "im", "all"],
+      "default": "all"
+    },
+    "timeRange": {
+      "type": "string",
+      "description": "时间范围，如 7d, 1w, 1m, 1y",
+      "default": "7d"
+    },
+    "keywords": {
+      "type": "array",
+      "description": "关键词过滤",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "outputFormat": {
+      "type": "string",
+      "description": "输出格式",
+      "enum": ["markdown", "json", "summary"],
+      "default": "summary"
+    }
+  },
+  "dependencies": {
+    "cli": "lark-cli",
+    "skills": ["larksuite/cli"]
+  },
+  "platforms": ["claude-code", "copilot"],
+  "compatibility": {
+    "copilot": {
+      "handler": "./handlers/copilot.js",
+      "fallback": "lark-cli"
+    }
+  }
+}
