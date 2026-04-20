@@ -1,0 +1,42 @@
+#!/bin/bash
+# Git pre-commit hook for Knowledge Reflux
+# Run commit review before each commit
+
+set -e
+
+# Get the project root directory
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+cd "$PROJECT_ROOT"
+
+# Check if there are staged changes
+if ! git diff --cached --quiet; then
+    # Run the commit review script
+    echo "========================================"
+    echo "知识回流 - 代码审查"
+    echo "========================================"
+    echo ""
+
+    # Activate virtual environment and run review
+    if [ -f "scripts/commit_review/.venv/bin/activate" ]; then
+        source scripts/commit_review/.venv/bin/activate
+    fi
+
+    # Run the review script
+    python scripts/commit_review/main.py
+
+    REVIEW_RESULT=$?
+
+    # Deactivate virtual environment
+    if [ -n "$VIRTUAL_ENV" ]; then
+        deactivate
+    fi
+
+    if [ $REVIEW_RESULT -ne 0 ]; then
+        echo ""
+        echo "审查发现问题，请处理后重新提交"
+        echo "提示：可以使用 'git commit --no-verify' 跳过审查"
+        exit 1
+    fi
+fi
+
+exit 0

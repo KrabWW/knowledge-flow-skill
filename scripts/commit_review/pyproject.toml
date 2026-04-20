@@ -1,0 +1,14 @@
+[project]
+name = "commit-review"
+version = "0.1.0"
+description = "代码提交审查工具 - 对比需求文档检查代码一致性"
+requires-python = ">=3.10"
+dependencies = [
+    "anthropic>=0.94.1",
+    "requests>=2.28.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+]
