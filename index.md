@@ -13,20 +13,21 @@ trigger:
 
 从飞书的多媒体内容中提取知识，自动回写到项目知识库。
 
-## 使用前检查
-
-确保已安装飞书 CLI:
-
-```bash
-lark-cli --version
-npx skills list | grep larksuite
-```
-
-如果未安装，运行一键安装器:
-
-```bash
-npx @your-org/knowledge-flow-installer
-```
+> **⚠️ 使用前必读：安装前置依赖**
+>
+> 本 Skill 依赖飞书 CLI 和相关 Skills。使用前请先运行一键安装器：
+>
+> ```bash
+> npx @krab-jw/knowledge-flow-installer
+> ```
+>
+> 安装器会自动配置：
+> - ✅ 飞书 CLI (@larksuite/cli)
+> - ✅ 飞书 Skills (23个)
+> - ✅ 飞书应用认证
+> - ✅ 本 Skill（从内网 Nacos 或外网 GitHub）
+>
+> **如已安装上述依赖，可直接使用本 Skill。**
 
 ## 使用方法
 
